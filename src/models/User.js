@@ -10,9 +10,6 @@ User.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    guiId: {
-      type: DataTypes.STRING(55),
-    },
     name: {
       type: DataTypes.STRING(255),
     },
@@ -25,11 +22,11 @@ User.init(
     city: {
       type: DataTypes.STRING(255),
     },
+    state: {
+      type: DataTypes.STRING(255),
+    },
     zipCode: {
       type: DataTypes.STRING(55),
-    },
-    dob: {
-      type: DataTypes.DATEONLY,
     },
     password: {
       type: DataTypes.TEXT,
@@ -40,23 +37,18 @@ User.init(
     photo: {
       type: DataTypes.STRING(100),
     },
-    status: {
-      type: DataTypes.INTEGER,
-    },
     userType: {
       type: DataTypes.INTEGER,
-      comment:
-        "1 = Admin, 2 = sub Admin, 3 = Customer",
+      comment: "1 = Admin, 2 = Business User, 3 = Customer",
     },
-
     fpToken: {
       type: DataTypes.STRING(255),
     },
     createdAt: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING,
     },
     updatedAt: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING,
     },
   },
   {
