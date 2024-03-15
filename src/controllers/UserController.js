@@ -119,7 +119,7 @@ const getUserByToken = async (req, res) => {
     console.log(error.message);
     return res
       .status(200)
-      .json({ status: 500, message: "Something went wrong" });
+      .json({ status: 500, message: "Internal Server Error!" });
   }
 };
 
@@ -142,6 +142,118 @@ const getAllUsersByQuery = async (req, res) => {
         ...keyword,
         id: { [Op.not]: req.person.id },
       },
+      attributes: [
+        "id",
+        "name",
+        "address",
+        "email",
+        "phone",
+        "userType",
+        "photo",
+        "city",
+        "state",
+        "zipCode",
+      ],
+    })
+      .then(({ count, rows }) => {
+        return res.status(200).json({
+          status: 200,
+          data: rows,
+          pagination: {
+            totalItems: count,
+            totalPages: Math.ceil(count / pageSize),
+            currentPage: page,
+            pageSize: pageSize,
+          },
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        return res
+          .status(200)
+          .json({ status: 400, message: "An Error Occured!" });
+      });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(200).json({
+      status: 500,
+      message: "Internal Server Error!",
+      messageInfo: error,
+    });
+  }
+};
+
+const getAllCustomers = async (req, res) => {
+  try {
+    const { page, pageSize, filterInput } = req.body;
+    const filter = {};
+    if (filterInput) {
+      filter.name = {
+        [Op.like]: `%${filterInput}%`,
+      };
+    }
+
+    filter.userType = 3;
+    await User.findAndCountAll({
+      offset: (page - 1) * pageSize,
+      limit: Number(pageSize),
+      where: filter,
+      attributes: [
+        "id",
+        "name",
+        "address",
+        "email",
+        "phone",
+        "userType",
+        "photo",
+        "city",
+        "state",
+        "zipCode",
+      ],
+    })
+      .then(({ count, rows }) => {
+        return res.status(200).json({
+          status: 200,
+          data: rows,
+          pagination: {
+            totalItems: count,
+            totalPages: Math.ceil(count / pageSize),
+            currentPage: page,
+            pageSize: pageSize,
+          },
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        return res
+          .status(200)
+          .json({ status: 400, message: "An Error Occured!" });
+      });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(200).json({
+      status: 500,
+      message: "Internal Server Error!",
+      messageInfo: error,
+    });
+  }
+};
+
+const getAllBusinessUser = async (req, res) => {
+  try {
+    const { page, pageSize, filterInput } = req.body;
+    const filter = {};
+    if (filterInput) {
+      filter.name = {
+        [Op.like]: `%${filterInput}%`,
+      };
+    }
+
+    filter.userType = 2;
+    await User.findAndCountAll({
+      offset: (page - 1) * pageSize,
+      limit: Number(pageSize),
+      where: filter,
       attributes: [
         "id",
         "name",
@@ -268,4 +380,6 @@ module.exports = {
   getUserByToken,
   updateSelfPassword,
   getAllUsersByQuery,
+  getAllCustomers,
+  getAllBusinessUser,
 };

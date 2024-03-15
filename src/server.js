@@ -46,7 +46,6 @@ const io = require("socket.io")(server, {
 });
 
 io.on("connection", (socket) => {
-  
   // -------------------------------- for One-to-one-chat ---------------------------------------------
 
   socket.on("setup", (userData) => {

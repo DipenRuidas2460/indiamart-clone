@@ -38,7 +38,9 @@ const registerUser = async (req, res) => {
       await profilePhoto.mv(imagePath);
     }
 
-    const currentDateTime = moment().tz("Asia/Kolkata").format("YYYY-MM-DD HH:mm:ss")
+    const currentDateTime = moment()
+      .tz("Asia/Kolkata")
+      .format("YYYY-MM-DD HH:mm:ss");
 
     if (email != "" || phone != "") {
       const findEmail = await User.findOne({
