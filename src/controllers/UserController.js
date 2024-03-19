@@ -322,20 +322,20 @@ const updateSelfPassword = async (req, res) => {
     if (response && isPassMatch) {
       response.password = password;
       await response.save();
-      return res.status(200).send({
+      return res.status(200).json({
         status: 200,
         data: response,
         message: "password changed successfully!",
       });
     } else {
       return res
-        .status(400)
-        .send({ status: false, message: "oldPassword is incorrect!!" });
+        .status(200)
+        .json({ status: 400, message: "oldPassword is incorrect!!" });
     }
   } catch (error) {
     console.log(error.message);
     return res
-      .status(500)
+      .status(200)
       .json({ status: 500, message: "Something went wrong" });
   }
 };

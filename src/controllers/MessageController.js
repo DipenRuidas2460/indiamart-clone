@@ -135,31 +135,25 @@ const allMessages = async (req, res) => {
     });
 
     for (let i = 0; i < messages.length; i++) {
-      if (
-        messages[i]?.senderId ||
-        messages[i].msg?.chatsender?.id ||
-        messages[i].msg?.chatSenderId
-      ) {
-        const messageSenderId = messages[i]?.senderId;
-        const chatMessSenderId = messages[i].msg?.chatsender?.id;
-        const chatSenderPersonId = messages[i]?.msg?.chatSenderId;
+      const messageSenderId = messages[i]?.senderId;
+      const chatMessSenderId = messages[i].msg?.chatsender?.id;
+      const chatSenderPersonId = messages[i]?.msg?.chatSenderId;
 
-        if (messageSenderId !== chatSenderPersonId) {
-          [messages[i].msg.chatSenderId, messages[i].msg.personId] = [
-            messages[i].msg.personId,
-            messages[i].msg.chatSenderId,
-          ];
-        }
-
-        if (messageSenderId !== chatMessSenderId) {
-          [messages[i].msg.chatsender, messages[i].msg.receive] = [
-            messages[i].msg.receive,
-            messages[i].msg.chatsender,
-          ];
-        }
-
-        await messages[i].save();
+      if (messageSenderId !== chatSenderPersonId) {
+        [messages[i].msg.chatSenderId, messages[i].msg.personId] = [
+          messages[i].msg.personId,
+          messages[i].msg.chatSenderId,
+        ];
       }
+
+      if (messageSenderId !== chatMessSenderId) {
+        [messages[i].msg.chatsender, messages[i].msg.receive] = [
+          messages[i].msg.receive,
+          messages[i].msg.chatsender,
+        ];
+      }
+
+      await messages[i].save();
     }
 
     return res.json(messages);

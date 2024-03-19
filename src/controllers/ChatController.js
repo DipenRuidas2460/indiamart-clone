@@ -165,7 +165,6 @@ const fetchChats = async (req, res) => {
 
     if (results.length > 0) {
       const loggedUserId = req.person.id;
-
       for (let i = 0; i < results.length; i++) {
         const chatSenId = results[i].chatSenderId;
         const chatSenObjId = results[i].chatsender.id;
@@ -186,10 +185,8 @@ const fetchChats = async (req, res) => {
 
         await results[i].save();
       }
-      return res.status(200).send({ status: 200, result: results });
-    } else {
-      return res.status(200).send({ status: 200, result: results });
     }
+    return res.status(200).send({ status: 200, result: results });
   } catch (error) {
     console.error(error);
     res.status(200).json({ status: 500, msg: error.message });

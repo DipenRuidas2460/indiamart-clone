@@ -213,4 +213,10 @@ const deletePost = async (req, res) => {
   }
 };
 
-module.exports = { createPost, updatePost, deletePost, getAllPost, getPostByBusinessId };
+module.exports = {
+  createPost,
+  updatePost,
+  deletePost,
+  getAllPost,
+  getPostByBusinessId,
+};

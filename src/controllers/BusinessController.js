@@ -41,7 +41,7 @@ const createBusiness = async (req, res) => {
       };
 
       await Business.create(newData)
-        .then(async (data) => {
+        .then((data) => {
           return res.status(201).json({
             status: 200,
             data: data,
